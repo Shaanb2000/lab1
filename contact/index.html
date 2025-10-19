@@ -18,6 +18,24 @@
   </header>
   <main>
     <p>Use the form below to send me an email.</p>
+    <form action="mailto:sbhakta@ucsd.edu" method="POST" enctype="text/plain">
+      <label>
+        Your email
+        <input name="email" type="email" value="yourname@ucsd.edu" required>
+      </label>
+
+      <label>
+        Subject
+        <input name="subject" value="Hello from your portfolio site">
+      </label>
+
+      <label>
+        Message
+        <textarea name="body" rows="6">I saw your site and wanted to reach out.</textarea>
+      </label>
+
+      <button>Send</button>
+    </form>
   </main>
 </body>
 </html>
