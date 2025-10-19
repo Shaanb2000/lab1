@@ -1,0 +1,12 @@
+/* Base type: 100% font size, 1.5 line height, OS UI font */
+html { font: 100%/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: 1rem; max-width: 72ch; margin-inline: auto; }
+header > nav { display: flex; gap: .75rem; flex-wrap: wrap; margin-block: .5rem 1rem; }
+a { text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; height: auto; border-radius: 12px; }
+main section { margin-block: 1.5rem; }
+@media (min-width: 700px) {
+  body { padding: 2rem; }
+}
