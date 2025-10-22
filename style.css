@@ -1,12 +1,94 @@
 /* Base type: 100% font size, 1.5 line height, OS UI font */
-html { font: 100%/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+:root {
+  --color-accent: oklch(65% 50% 0);
+  accent-color: var(--color-accent);
+}
+
+html { font: 100%/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; }
 * { box-sizing: border-box; }
-body { margin: 0; padding: 1rem; max-width: 72ch; margin-inline: auto; }
-header > nav { display: flex; gap: .75rem; flex-wrap: wrap; margin-block: .5rem 1rem; }
-a { text-decoration: none; }
-a:hover { text-decoration: underline; }
-img { max-width: 100%; height: auto; border-radius: 12px; }
-main section { margin-block: 1.5rem; }
+
+/* Global layout: constrain readable width and center */
+body {
+  margin: 0;
+  max-width: 100ch;         /* scales with characters */
+  margin-inline: auto;
+  padding-inline: 1em;     /* prevents edge collisions on small screens */
+  padding-block: 1rem;
+  background: #fff;
+  color: #111;
+}
+
+/* Navigation styling */
+nav {
+  display: flex;
+  border-bottom: 1px solid oklch(80% 3% 200);
+  margin-bottom: 1rem;
+}
+nav a {
+  flex: 1;                 /* distribute remaining space evenly */
+  text-align: center;
+  text-decoration: none;   /* remove underline */
+  color: inherit;          /* use current text color */
+  padding: 0.5em;
+}
+/* Add class="current" to the active page link in each HTML file */
+nav a.current,
+nav a:hover {
+  border-bottom: 0.4em solid var(--color-accent);
+  padding-bottom: 0.1em;   /* counter the added border height */
+}
+
+/* Typography and spacing */
+h1 { font-size: 2rem; line-height: 1.1; margin: 0.25em 0 0.5em; }
+h2, h3, h4, h5, h6 { line-height: 1.1; }
+h2 { color: var(--color-accent); margin-top: 1.25em; }
+section { margin-bottom: 1.5em; }
+ul { margin-left: 1.5em; }
+
+/* Images */
+img { max-width: 100%; height: auto; border-radius: 12px; display: block; }
+
+/* Contact form — Grid layout */
+form {
+  display: grid;
+  grid-template-columns: auto 1fr; /* labels left, inputs right */
+  gap: 1em;
+  align-items: center;
+}
+label { grid-column: 1; text-align: right; }
+input, textarea, button {
+  grid-column: 2;
+  width: 100%;
+  box-sizing: border-box;
+  font: inherit;         /* integrate typography with page */
+  padding: 0.4em;
+}
+/* Make the submit button span full width row for balance */
+button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
+
+/* Projects responsive grid */
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15em, 1fr));
+  gap: 1em;
+}
+.projects article {
+  display: grid;                 /* container for subgrid rows */
+  grid-template-rows: subgrid;   /* align inner rows across columns */
+  grid-row: span 3;              /* each card uses 3 implicit rows */
+  margin: 0;
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 0.5em;
+  background: white;
+}
+.projects h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.1;
+}
+.projects img { width: 100%; height: auto; display: block; }
+
 @media (min-width: 700px) {
-  body { padding: 2rem; }
+  body { padding-block: 2rem; }
 }
