@@ -23,8 +23,9 @@ body {
 
 /* Navigation styling */
 nav {
+  --border-color: oklch(50% 10% 200 / 40%);
   display: flex;
-  border-bottom: 1px solid oklch(50% 10% 200 / 40%);
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 1rem;
 }
 nav a {
@@ -35,10 +36,13 @@ nav a {
   padding: 0.5em;
 }
 /* Add class="current" to the active page link in each HTML file */
-nav a.current,
-nav a:hover {
+nav a.current {
   border-bottom: 0.4em solid var(--color-accent);
   padding-bottom: 0.1em;   /* counter the added border height */
+}
+
+nav a:hover {
+  background-color: color-mix(in oklch, var(--color-accent), canvas 85%);
 }
 
 /* Typography and spacing */
@@ -97,21 +101,13 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 0.875rem;
+  font-size: 88%;
   z-index: 1000;
 }
 
-.color-scheme label {
-  margin-right: 0.5rem;
-}
-
 .color-scheme select {
-  font-size: 0.875rem;
-  padding: 0.25rem;
-  border: 1px solid oklch(50% 10% 200 / 40%);
-  border-radius: 0.25rem;
-  background: inherit;
-  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
 }
 
 /* Dark theme support */

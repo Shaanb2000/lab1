@@ -59,7 +59,7 @@ function createNavigation() {
 
 // Theme management
 function initTheme() {
-  const savedTheme = localStorage.getItem('theme') || 'auto';
+  const savedTheme = localStorage.getItem('theme') || 'automatic';
   applyTheme(savedTheme);
   createThemeSelector();
 }
@@ -67,17 +67,11 @@ function initTheme() {
 function applyTheme(theme) {
   const html = document.documentElement;
   
-  // Remove existing theme classes
-  html.classList.remove('light-theme', 'dark-theme', 'auto-theme');
-  
   if (theme === 'light') {
-    html.classList.add('light-theme');
     html.style.colorScheme = 'light';
   } else if (theme === 'dark') {
-    html.classList.add('dark-theme');
     html.style.colorScheme = 'dark';
   } else {
-    html.classList.add('auto-theme');
     html.style.colorScheme = 'light dark';
   }
   
@@ -85,32 +79,22 @@ function applyTheme(theme) {
 }
 
 function createThemeSelector() {
-  const currentTheme = localStorage.getItem('theme') || 'auto';
+  const currentTheme = localStorage.getItem('theme') || 'automatic';
   
-  const themeSelector = document.createElement('div');
-  themeSelector.className = 'color-scheme';
-  themeSelector.innerHTML = `
-    <label for="theme-select">Theme:</label>
-    <select id="theme-select">
-      <option value="auto" ${currentTheme === 'auto' ? 'selected' : ''}>Auto</option>
-      <option value="light" ${currentTheme === 'light' ? 'selected' : ''}>Light</option>
-      <option value="dark" ${currentTheme === 'dark' ? 'selected' : ''}>Dark</option>
-    </select>
-  `;
-  
-  // Position in top-right corner
-  themeSelector.style.cssText = `
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    font-size: 0.875rem;
-    z-index: 1000;
-  `;
-  
-  document.body.appendChild(themeSelector);
+  // Add theme switcher HTML
+  document.body.insertAdjacentHTML('afterbegin', `
+    <label class="color-scheme">
+      Theme:
+      <select>
+        <option value="automatic" ${currentTheme === 'automatic' ? 'selected' : ''}>Automatic</option>
+        <option value="light" ${currentTheme === 'light' ? 'selected' : ''}>Light</option>
+        <option value="dark" ${currentTheme === 'dark' ? 'selected' : ''}>Dark</option>
+      </select>
+    </label>
+  `);
   
   // Add event listener
-  const select = themeSelector.querySelector('#theme-select');
+  const select = document.querySelector('.color-scheme select');
   select.addEventListener('change', (e) => {
     applyTheme(e.target.value);
   });
