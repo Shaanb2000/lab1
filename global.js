@@ -102,7 +102,7 @@ function createThemeSelector() {
 
 // Contact form encoder
 function encodeContactForm() {
-  const form = $$('form[action*="mailto"]')[0];
+  const form = $$('form')[0];
   if (!form) return;
   
   form.addEventListener('submit', function(e) {
@@ -112,7 +112,7 @@ function encodeContactForm() {
     const subject = form.querySelector('input[name="subject"]').value;
     const body = form.querySelector('textarea[name="body"]').value;
     
-    // Encode the mailto URL
+    // Encode the mailto URL with proper parameters
     const mailtoUrl = `mailto:shaanb2000@ucsd.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     
     // Open mail client
