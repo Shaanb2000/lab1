@@ -4,7 +4,10 @@
   accent-color: var(--color-accent);
 }
 
-html { font: 100%/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; }
+html { 
+  font: 100%/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  color-scheme: light dark;
+}
 * { box-sizing: border-box; }
 
 /* Global layout: constrain readable width and center */
@@ -21,7 +24,7 @@ body {
 /* Navigation styling */
 nav {
   display: flex;
-  border-bottom: 1px solid oklch(80% 3% 200);
+  border-bottom: 1px solid oklch(50% 10% 200 / 40%);
   margin-bottom: 1rem;
 }
 nav a {
@@ -88,6 +91,66 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
   line-height: 1.1;
 }
 .projects img { width: 100%; height: auto; display: block; }
+
+/* Theme selector styles */
+.color-scheme {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.875rem;
+  z-index: 1000;
+}
+
+.color-scheme label {
+  margin-right: 0.5rem;
+}
+
+.color-scheme select {
+  font-size: 0.875rem;
+  padding: 0.25rem;
+  border: 1px solid oklch(50% 10% 200 / 40%);
+  border-radius: 0.25rem;
+  background: inherit;
+  color: inherit;
+}
+
+/* Dark theme support */
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1a1a1a;
+    color: #e0e0e0;
+  }
+  
+  .projects article {
+    background: #2a2a2a;
+    border-color: #444;
+  }
+}
+
+/* Light theme override */
+.light-theme {
+  color-scheme: light;
+}
+
+.light-theme body {
+  background: #fff;
+  color: #111;
+}
+
+/* Dark theme override */
+.dark-theme {
+  color-scheme: dark;
+}
+
+.dark-theme body {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.dark-theme .projects article {
+  background: #2a2a2a;
+  border-color: #444;
+}
 
 @media (min-width: 700px) {
   body { padding-block: 2rem; }
