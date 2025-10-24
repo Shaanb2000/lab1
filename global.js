@@ -50,22 +50,22 @@ function generateNavigation() {
 
 // Auto-highlight current page
 function highlightCurrentPage() {
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   const navLinks = $$('nav a');
   
+  // Remove current class from all links
   navLinks.forEach(link => {
     link.classList.remove('current');
-    const href = link.getAttribute('href');
-    
-    // Check if this is the current page
-    if (href === currentPage || 
-        (currentPage === '' && href === 'index.html') ||
-        (currentPage === 'index.html' && href === 'index.html') ||
-        (currentPage === 'index.html' && href === './index.html') ||
-        (currentPage === 'index.html' && href === '/index.html')) {
-      link.classList.add('current');
-    }
   });
+  
+  // Find the link to the current page
+  let currentLink = navLinks.find(
+    (a) => a.host === location.host && a.pathname === location.pathname
+  );
+  
+  // Add current class to the found link
+  if (currentLink) {
+    currentLink.classList.add('current');
+  }
 }
 
 // Theme management
