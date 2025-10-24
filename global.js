@@ -18,53 +18,42 @@ function getBasePath() {
   return '';
 }
 
-// Navigation data
-const navigationData = [
-  { href: 'index.html', text: 'Home' },
-  { href: 'projects/index.html', text: 'Projects' },
-  { href: 'contact/index.html', text: 'Contact' },
-  { href: 'resume/index.html', text: 'Resume' },
-  { href: 'https://github.com/shaanb2000', text: 'GitHub', external: true }
+// Navigation data - array of objects
+let pages = [
+  { url: '', title: 'Home' },
+  { url: 'projects/', title: 'Projects' },
+  { url: 'contact/', title: 'Contact' },
+  { url: 'resume/', title: 'Resume' },
+  { url: 'https://github.com/shaanb2000', title: 'GitHub' }
 ];
 
-// Generate navigation HTML
-function generateNavigation() {
-  const basePath = getBasePath();
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+// Create navigation menu
+function createNavigation() {
+  // Create nav element and add it to body
+  let nav = document.createElement('nav');
+  document.body.prepend(nav);
   
-  let navHTML = '';
-  navigationData.forEach(item => {
-    const href = item.external ? item.href : basePath + item.href;
-    const isCurrent = !item.external && (currentPage === item.href || 
-      (currentPage === '' && item.href === 'index.html') ||
-      (currentPage === 'index.html' && item.href === 'index.html'));
+  // Loop through pages and create links
+  for (let p of pages) {
+    let url = p.url;
+    let title = p.title;
     
-    const currentClass = isCurrent ? ' class="current"' : '';
-    const targetAttr = item.external ? ' target="_blank" rel="noopener"' : '';
+    // Create link element
+    let a = document.createElement('a');
+    a.href = url;
+    a.textContent = title;
     
-    navHTML += `<a href="${href}"${currentClass}${targetAttr}>${item.text}</a>`;
-  });
-  
-  return navHTML;
-}
-
-// Auto-highlight current page
-function highlightCurrentPage() {
-  const navLinks = $$('nav a');
-  
-  // Remove current class from all links
-  navLinks.forEach(link => {
-    link.classList.remove('current');
-  });
-  
-  // Find the link to the current page
-  let currentLink = navLinks.find(
-    (a) => a.host === location.host && a.pathname === location.pathname
-  );
-  
-  // Add current class to the found link
-  if (currentLink) {
-    currentLink.classList.add('current');
+    // Add current class if this is the current page
+    a.classList.toggle(
+      'current',
+      a.host === location.host && a.pathname === location.pathname
+    );
+    
+    // Add target="_blank" for external links
+    a.toggleAttribute('target', '_blank', a.host !== location.host);
+    
+    // Add to nav
+    nav.append(a);
   }
 }
 
@@ -149,14 +138,8 @@ function encodeContactForm() {
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-  // Generate navigation if nav element exists
-  const nav = $$('nav')[0];
-  if (nav) {
-    nav.innerHTML = generateNavigation();
-  }
-  
-  // Highlight current page
-  highlightCurrentPage();
+  // Create navigation menu
+  createNavigation();
   
   // Initialize theme system
   initTheme();
@@ -169,8 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
 window.portfolioJS = {
   $$,
   getBasePath,
-  generateNavigation,
-  highlightCurrentPage,
+  createNavigation,
   applyTheme,
   initTheme
 };
