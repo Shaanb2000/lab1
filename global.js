@@ -2,8 +2,8 @@
 // Global JavaScript functionality for portfolio site
 
 // Helper function for DOM selection
-function $$(selector) {
-  return document.querySelector(selector);
+function $$(selector, context = document) {
+  return Array.from(context.querySelectorAll(selector));
 }
 
 // Console log to verify JS is working
@@ -51,7 +51,7 @@ function generateNavigation() {
 // Auto-highlight current page
 function highlightCurrentPage() {
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  const navLinks = document.querySelectorAll('nav a');
+  const navLinks = $$('nav a');
   
   navLinks.forEach(link => {
     link.classList.remove('current');
@@ -129,7 +129,7 @@ function createThemeSelector() {
 
 // Contact form encoder
 function encodeContactForm() {
-  const form = $$('form[action*="mailto"]');
+  const form = $$('form[action*="mailto"]')[0];
   if (!form) return;
   
   form.addEventListener('submit', function(e) {
@@ -150,7 +150,7 @@ function encodeContactForm() {
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   // Generate navigation if nav element exists
-  const nav = $$('nav');
+  const nav = $$('nav')[0];
   if (nav) {
     nav.innerHTML = generateNavigation();
   }
