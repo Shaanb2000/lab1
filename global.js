@@ -20,10 +20,10 @@ function getBasePath() {
 
 // Navigation data - array of objects
 let pages = [
-  { url: '', title: 'Home' },
-  { url: 'projects/', title: 'Projects' },
-  { url: 'contact/', title: 'Contact' },
-  { url: 'resume/', title: 'Resume' },
+  { url: 'index.html', title: 'Home' },
+  { url: 'projects/index.html', title: 'Projects' },
+  { url: 'contact/index.html', title: 'Contact' },
+  { url: 'resume/index.html', title: 'Resume' },
   { url: 'https://github.com/shaanb2000', title: 'GitHub' }
 ];
 
@@ -33,10 +33,18 @@ function createNavigation() {
   let nav = document.createElement('nav');
   document.body.prepend(nav);
   
+  // Get base path for current page
+  const basePath = getBasePath();
+  
   // Loop through pages and create links
   for (let p of pages) {
     let url = p.url;
     let title = p.title;
+    
+    // Add base path for internal links
+    if (!url.startsWith('http')) {
+      url = basePath + url;
+    }
     
     // Create link element
     let a = document.createElement('a');
