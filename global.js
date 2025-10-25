@@ -68,8 +68,14 @@ function createNavigation() {
 // Theme management
 function initTheme() {
   const savedTheme = localStorage.getItem('theme') || 'light dark';
-  document.documentElement.style.setProperty('color-scheme', savedTheme);
+  setColorScheme(savedTheme);
   createThemeSelector();
+}
+
+function setColorScheme(colorScheme) {
+  console.log('Setting color scheme to:', colorScheme);
+  document.documentElement.style.setProperty('color-scheme', colorScheme);
+  localStorage.setItem('theme', colorScheme);
 }
 
 function createThemeSelector() {
@@ -90,9 +96,8 @@ function createThemeSelector() {
   // Add event listener
   const select = document.querySelector('.color-scheme select');
   select.addEventListener('input', (e) => {
-    const colorScheme = e.target.value;
-    document.documentElement.style.setProperty('color-scheme', colorScheme);
-    localStorage.setItem('theme', colorScheme);
+    console.log('Theme changed to:', e.target.value);
+    setColorScheme(e.target.value);
   });
 }
 
