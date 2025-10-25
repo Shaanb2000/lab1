@@ -86,6 +86,16 @@ function setColorScheme(value) {
   document.documentElement.style.setProperty("color-scheme", value);
   localStorage.colorScheme = value;
   schemeSelect.value = value;
+  
+  // Add theme class to html element
+  document.documentElement.className = '';
+  if (value === 'light') {
+    document.documentElement.classList.add('light-theme');
+  } else if (value === 'dark') {
+    document.documentElement.classList.add('dark-theme');
+  } else {
+    document.documentElement.classList.add('auto-theme');
+  }
 }
 
 // Change handler
