@@ -91,6 +91,13 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
   color: black;
 }
 
+/* Light theme project cards (explicit) */
+html[style*="color-scheme: light"] .projects article {
+  background: white !important;
+  color: black !important;
+  border-color: oklch(50% 10% 200 / 40%) !important;
+}
+
 /* Dark theme project cards */
 @media (prefers-color-scheme: dark) {
   .projects article {
@@ -102,9 +109,9 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
 
 /* Force dark theme when color-scheme is dark */
 html[style*="color-scheme: dark"] .projects article {
-  background: #1a1a1a;
-  color: #e0e0e0;
-  border-color: #444;
+  background: #1a1a1a !important;
+  color: #e0e0e0 !important;
+  border-color: #444 !important;
 }
 .projects h2 {
   margin: 0;
