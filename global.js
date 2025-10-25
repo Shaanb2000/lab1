@@ -67,34 +67,20 @@ function createNavigation() {
 
 // Theme management
 function initTheme() {
-  const savedTheme = localStorage.getItem('theme') || 'automatic';
-  applyTheme(savedTheme);
+  const savedTheme = localStorage.getItem('theme') || 'light dark';
+  document.documentElement.style.setProperty('color-scheme', savedTheme);
   createThemeSelector();
 }
 
-function applyTheme(theme) {
-  const html = document.documentElement;
-  
-  if (theme === 'light') {
-    html.style.colorScheme = 'light';
-  } else if (theme === 'dark') {
-    html.style.colorScheme = 'dark';
-  } else {
-    html.style.colorScheme = 'light dark';
-  }
-  
-  localStorage.setItem('theme', theme);
-}
-
 function createThemeSelector() {
-  const currentTheme = localStorage.getItem('theme') || 'automatic';
+  const currentTheme = localStorage.getItem('theme') || 'light dark';
   
   // Add theme switcher HTML
   document.body.insertAdjacentHTML('afterbegin', `
     <label class="color-scheme">
       Theme:
       <select>
-        <option value="automatic" ${currentTheme === 'automatic' ? 'selected' : ''}>Automatic</option>
+        <option value="light dark" ${currentTheme === 'light dark' ? 'selected' : ''}>Automatic</option>
         <option value="light" ${currentTheme === 'light' ? 'selected' : ''}>Light</option>
         <option value="dark" ${currentTheme === 'dark' ? 'selected' : ''}>Dark</option>
       </select>
@@ -103,8 +89,10 @@ function createThemeSelector() {
   
   // Add event listener
   const select = document.querySelector('.color-scheme select');
-  select.addEventListener('change', (e) => {
-    applyTheme(e.target.value);
+  select.addEventListener('input', (e) => {
+    const colorScheme = e.target.value;
+    document.documentElement.style.setProperty('color-scheme', colorScheme);
+    localStorage.setItem('theme', colorScheme);
   });
 }
 
