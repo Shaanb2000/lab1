@@ -85,45 +85,18 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
   grid-row: span 3;              /* each card uses 3 implicit rows */
   margin: 0;
   padding: 1em;
-  border: 1px solid oklch(50% 10% 200 / 40%);
+  border: 1px solid color-mix(in oklch, canvastext 20%, canvas 80%);
   border-radius: 0.5em;
-  background: white;
-  color: black;
-}
-
-/* Light theme project cards */
-.light-theme .projects article {
-  background: white !important;
-  color: black !important;
-  border-color: oklch(50% 10% 200 / 40%) !important;
-}
-
-/* Dark theme project cards */
-.dark-theme .projects article {
-  background: #1a1a1a !important;
-  color: #e0e0e0 !important;
-  border-color: #444 !important;
-}
-
-/* Auto theme - follow system preference */
-.auto-theme .projects article {
   background: canvas;
   color: canvastext;
-  border-color: oklch(50% 10% 200 / 40%);
-}
-
-/* System dark mode for auto theme */
-@media (prefers-color-scheme: dark) {
-  .auto-theme .projects article {
-    background: #1a1a1a;
-    color: #e0e0e0;
-    border-color: #444;
-  }
+  box-shadow: 0 1px 3px color-mix(in oklch, canvastext 15%, transparent 85%);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 .projects h2 {
   margin: 0;
   font-size: 1.2rem;
   line-height: 1.1;
+  color: var(--color-accent, oklch(65% 50% 0));
 }
 .projects img { width: 100%; height: auto; display: block; }
 
