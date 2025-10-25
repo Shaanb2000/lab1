@@ -85,9 +85,10 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
   grid-row: span 3;              /* each card uses 3 implicit rows */
   margin: 0;
   padding: 1em;
-  border: 1px solid #ccc;
+  border: 1px solid oklch(50% 10% 200 / 40%);
   border-radius: 0.5em;
-  background: white;
+  background: canvas;
+  color: canvastext;
 }
 .projects h2 {
   margin: 0;
