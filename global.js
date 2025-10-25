@@ -65,39 +65,53 @@ function createNavigation() {
   }
 }
 
-// ---- THEME SWITCHER ----
-document.body.insertAdjacentHTML(
-  "afterbegin",
-  `
-  <label class="color-scheme">
-    Theme:
-    <select>
-      <option value="light dark">Automatic</option>
-      <option value="light">Light</option>
-      <option value="dark">Dark</option>
-    </select>
-  </label>
-  `
-);
-
-const schemeSelect = document.querySelector(".color-scheme select");
-
-function setColorScheme(value) {
-  document.documentElement.style.setProperty("color-scheme", value);
-  localStorage.colorScheme = value;
-  schemeSelect.value = value;
+// Theme management
+function initTheme() {
+  const savedTheme = localStorage.getItem('theme') || 'automatic';
+  applyTheme(savedTheme);
+  createThemeSelector();
 }
 
-// Change handler
-schemeSelect.addEventListener("change", (e) => {
-  setColorScheme(e.target.value);
-});
+function applyTheme(theme) {
+  const html = document.documentElement;
+  
+  // Remove existing theme classes
+  html.classList.remove('light-theme', 'dark-theme', 'auto-theme');
+  
+  if (theme === 'light') {
+    html.classList.add('light-theme');
+    html.style.colorScheme = 'light';
+  } else if (theme === 'dark') {
+    html.classList.add('dark-theme');
+    html.style.colorScheme = 'dark';
+  } else {
+    html.classList.add('auto-theme');
+    html.style.colorScheme = 'light dark';
+  }
+  
+  localStorage.setItem('theme', theme);
+}
 
-// On load: apply saved or default
-if (localStorage.colorScheme) {
-  setColorScheme(localStorage.colorScheme);
-} else {
-  setColorScheme("light dark"); // Automatic by default
+function createThemeSelector() {
+  const currentTheme = localStorage.getItem('theme') || 'automatic';
+  
+  // Add theme switcher HTML
+  document.body.insertAdjacentHTML('afterbegin', `
+    <label class="color-scheme">
+      Theme:
+      <select>
+        <option value="automatic" ${currentTheme === 'automatic' ? 'selected' : ''}>Automatic</option>
+        <option value="light" ${currentTheme === 'light' ? 'selected' : ''}>Light</option>
+        <option value="dark" ${currentTheme === 'dark' ? 'selected' : ''}>Dark</option>
+      </select>
+    </label>
+  `);
+  
+  // Add event listener
+  const select = document.querySelector('.color-scheme select');
+  select.addEventListener('change', (e) => {
+    applyTheme(e.target.value);
+  });
 }
 
 // Contact form encoder
@@ -124,6 +138,9 @@ function encodeContactForm() {
 document.addEventListener('DOMContentLoaded', function() {
   // Create navigation menu
   createNavigation();
+  
+  // Initialize theme system
+  initTheme();
   
   // Setup contact form encoder
   encodeContactForm();
