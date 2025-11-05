@@ -112,6 +112,21 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
 select, input, textarea, button { 
   font: inherit; 
 }
+
+/* GitHub stats styling */
+#profile-stats dl {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5em;
+  text-align: center;
+}
+#profile-stats dt { 
+  font-weight: bold; 
+}
+#profile-stats dd { 
+  margin: 0; 
+}
+
 @media (min-width: 700px) {
   body { padding-block: 2rem; }
 }

@@ -139,6 +139,40 @@ document.addEventListener('DOMContentLoaded', function() {
   encodeContactForm();
 });
 
+// Fetch JSON utility
+export async function fetchJSON(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`);
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error("Error fetching or parsing JSON:", err);
+    return [];
+  }
+}
+
+// Render projects dynamically
+export function renderProjects(projects, container, headingLevel = 'h2') {
+  if (!container) return;
+  container.innerHTML = ''; // clear old content
+  for (const project of projects) {
+    const article = document.createElement('article');
+    article.innerHTML = `
+      <${headingLevel}>${project.title}</${headingLevel}>
+      <img src="${project.image}" alt="${project.title}">
+      <p>${project.description}</p>
+      <p><strong>Year:</strong> ${project.year ?? 'N/A'}</p>
+    `;
+    container.appendChild(article);
+  }
+}
+
+// Fetch GitHub profile data
+export async function fetchGitHubData(username) {
+  return fetchJSON(`https://api.github.com/users/${username}`);
+}
+
 // Export functions for potential external use
 window.portfolioJS = {
   $$,
