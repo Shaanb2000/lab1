@@ -6,6 +6,11 @@ function $$(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
+// Helper function for single element selection (for tutorial compatibility)
+function $(selector, context = document) {
+  return context.querySelector(selector);
+}
+
 // Console log to verify JS is working
 console.log("IT'S ALIVE!");
 
