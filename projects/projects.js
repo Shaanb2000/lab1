@@ -4,7 +4,7 @@ const projects = await fetchJSON('../lib/projects.json');
 const container = document.querySelector('.projects');
 renderProjects(projects, container, 'h2');
 
-// count projects dynamically
+// Update projects title with count
 const title = document.querySelector('.projects-title');
-if (title) title.textContent += ` (${projects.length})`;
+if (title) title.textContent = `${projects.length} Projects`;
 

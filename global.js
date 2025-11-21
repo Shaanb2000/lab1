@@ -158,18 +158,16 @@ export async function fetchJSON(url) {
 }
 
 // Render projects dynamically
-export function renderProjects(projects, container, headingLevel = 'h2') {
-  if (!container) return;
-  container.innerHTML = ''; // clear old content
-  for (const project of projects) {
+export function renderProjects(projectArray, containerElement, headingLevel = 'h2') {
+  containerElement.innerHTML = ''; // Clear container
+  for (const project of projectArray) {
     const article = document.createElement('article');
     article.innerHTML = `
       <${headingLevel}>${project.title}</${headingLevel}>
       <img src="${project.image}" alt="${project.title}">
       <p>${project.description}</p>
-      <p><strong>Year:</strong> ${project.year ?? 'N/A'}</p>
     `;
-    container.appendChild(article);
+    containerElement.appendChild(article);
   }
 }
 
