@@ -16,13 +16,17 @@ const githubData = await fetchGitHubData('shaanb2000');
 
 const profileStats = document.querySelector('#profile-stats');
 
-if (profileStats) {
+if (profileStats && githubData) {
     profileStats.innerHTML = `
           <dl>
-            <dt>Public Repos:</dt><dd>${githubData.public_repos}</dd>
-            <dt>Public Gists:</dt><dd>${githubData.public_gists}</dd>
-            <dt>Followers:</dt><dd>${githubData.followers}</dd>
-            <dt>Following:</dt><dd>${githubData.following}</dd>
+            <dt>Public Repos:</dt><dd>${githubData.public_repos || 0}</dd>
+            <dt>Public Gists:</dt><dd>${githubData.public_gists || 0}</dd>
+            <dt>Followers:</dt><dd>${githubData.followers || 0}</dd>
+            <dt>Following:</dt><dd>${githubData.following || 0}</dd>
           </dl>
       `;
+} else if (!profileStats) {
+    console.error('Profile stats container (#profile-stats) not found');
+} else if (!githubData) {
+    console.error('GitHub data not loaded');
 }
