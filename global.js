@@ -144,38 +144,37 @@ document.addEventListener('DOMContentLoaded', function() {
   encodeContactForm();
 });
 
-// Fetch JSON utility
 export async function fetchJSON(url) {
-  try {
-    // Fetch the JSON file from the given URL
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch projects: ${response.statusText}`);
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch JSON: ${response.statusText}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error("Error fetching JSON:", error);
+        return [];
     }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching or parsing JSON data:', error);
-  }
 }
 
-// Render projects dynamically
 export function renderProjects(projectArray, containerElement, headingLevel = 'h2') {
-  containerElement.innerHTML = ''; // Clear container
-  for (const project of projectArray) {
-    const article = document.createElement('article');
-    article.innerHTML = `
-      <${headingLevel}>${project.title}</${headingLevel}>
-      <img src="${project.image}" alt="${project.title}">
-      <p>${project.description}</p>
-    `;
-    containerElement.appendChild(article);
-  }
+    if (!containerElement) return;
+
+    containerElement.innerHTML = '';
+
+    projectArray.forEach(project => {
+        const article = document.createElement('article');
+        article.innerHTML = `
+            <${headingLevel}>${project.title}</${headingLevel}>
+            <img src="${project.image}" alt="${project.title}">
+            <p>${project.description}</p>
+        `;
+        containerElement.appendChild(article);
+    });
 }
 
-// Fetch GitHub profile data
 export async function fetchGitHubData(username) {
-  return fetchJSON(`https://api.github.com/users/${username}`);
+    return fetchJSON(`https://api.github.com/users/${username}`);
 }
 
 // Export functions for potential external use
