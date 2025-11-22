@@ -1,10 +1,10 @@
 import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
 
 // Load projects and display latest 3
-const allProjects = await fetchJSON('./lib/projects.json');
-const latest = allProjects.slice(0, 3);
-const container = document.querySelector('.projects');
-renderProjects(latest, container, 'h3');
+const projects = await fetchJSON('./lib/projects.json');
+const latestProjects = projects.slice(0, 3);
+const projectsContainer = document.querySelector('.projects');
+renderProjects(latestProjects, projectsContainer, 'h2');
 
 // Fetch and display GitHub stats
 const githubData = await fetchGitHubData('shaanb2000');
