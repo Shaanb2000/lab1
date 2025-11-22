@@ -71,26 +71,14 @@ function createNavigation() {
 }
 
 // ---- THEME SWITCHER ----
-document.body.insertAdjacentHTML(
-  "afterbegin",
-  `
-  <label class="color-scheme">
-    Theme:
-    <select>
-      <option value="light dark">Automatic</option>
-      <option value="light">Light</option>
-      <option value="dark">Dark</option>
-    </select>
-  </label>
-  `
-);
-
-const schemeSelect = document.querySelector(".color-scheme select");
+let schemeSelect = null;
 
 function setColorScheme(value) {
   document.documentElement.style.setProperty("color-scheme", value);
   localStorage.colorScheme = value;
-  schemeSelect.value = value;
+  if (schemeSelect) {
+    schemeSelect.value = value;
+  }
   
   // Add theme class to html element
   document.documentElement.className = '';
@@ -103,17 +91,47 @@ function setColorScheme(value) {
   }
 }
 
-// Change handler
-schemeSelect.addEventListener("change", (e) => {
-  setColorScheme(e.target.value);
-});
+function initThemeSwitcher() {
+  if (!document.body) {
+    // Wait for body to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initThemeSwitcher);
+      return;
+    }
+  }
 
-// On load: apply saved or default
-if (localStorage.colorScheme) {
-  setColorScheme(localStorage.colorScheme);
-} else {
-  setColorScheme("light dark"); // Automatic by default
+  document.body.insertAdjacentHTML(
+    "afterbegin",
+    `
+    <label class="color-scheme">
+      Theme:
+      <select>
+        <option value="light dark">Automatic</option>
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+      </select>
+    </label>
+    `
+  );
+
+  schemeSelect = document.querySelector(".color-scheme select");
+  if (!schemeSelect) return;
+
+  // Change handler
+  schemeSelect.addEventListener("change", (e) => {
+    setColorScheme(e.target.value);
+  });
+
+  // On load: apply saved or default
+  if (localStorage.colorScheme) {
+    setColorScheme(localStorage.colorScheme);
+  } else {
+    setColorScheme("light dark"); // Automatic by default
+  }
 }
+
+// Initialize theme switcher
+initThemeSwitcher();
 
 // Contact form encoder
 function encodeContactForm() {
@@ -185,6 +203,5 @@ window.portfolioJS = {
   $$,
   getBasePath,
   createNavigation,
-  applyTheme,
-  initTheme
+  setColorScheme
 };
