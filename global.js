@@ -150,9 +150,12 @@ export async function fetchJSON(url) {
         if (!response.ok) {
             throw new Error(`Failed to fetch JSON: ${response.statusText}`);
         }
-        return await response.json();
+        const data = await response.json();
+        console.log(`Successfully fetched ${url}:`, data.length || 'object');
+        return data;
     } catch (error) {
-        console.error("Error fetching JSON:", error);
+        console.error("Error fetching JSON from", url, ":", error);
+        console.error("This might be a CORS issue. Make sure you're using a web server (not file://)");
         return [];
     }
 }
