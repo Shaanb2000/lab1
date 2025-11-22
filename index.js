@@ -1,24 +1,28 @@
-import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';
+import { fetchJSON, renderProjects, fetchGitHubData } from './global.js';  // Import functions
 
-const allProjects = await fetchJSON('./projects/projects.json');
+// Fetch project data
+const projects = await fetchJSON('./lib/projects.json');
 
+// Filter the first 3 projects
+const latestProjects = projects.slice(0, 3);
 
+// Select the container where the projects will be displayed
+const projectsContainer = document.querySelector('.projects');
 
-const latest = allProjects.slice(0, 3);
+// Render the filtered projects
+renderProjects(latestProjects, projectsContainer, 'h2');
 
-const homeContainer = document.querySelector('.projects');
-renderProjects(latest, homeContainer, 'h3');
+const githubData = await fetchGitHubData('shaanb2000');
 
-const githubData = await fetchGitHubData('shaanb3733'); // your username
-const statsEl = document.querySelector('#profile-stats');
+const profileStats = document.querySelector('#profile-stats');
 
-if (statsEl) {
-    statsEl.innerHTML = `
-        <dl>
+if (profileStats) {
+    profileStats.innerHTML = `
+          <dl>
             <dt>Public Repos:</dt><dd>${githubData.public_repos}</dd>
             <dt>Public Gists:</dt><dd>${githubData.public_gists}</dd>
             <dt>Followers:</dt><dd>${githubData.followers}</dd>
             <dt>Following:</dt><dd>${githubData.following}</dd>
-        </dl>
-    `;
+          </dl>
+      `;
 }
