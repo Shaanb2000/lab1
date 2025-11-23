@@ -184,26 +184,24 @@ function renderScatterPlot(data, commits) {
   // Create axes
   const xAxis = d3.axisBottom(xScale);
   
-  const yAxis = d3
-    .axisLeft(yScale)
+  // Create Y axis with explicit formatting
+  const yAxisGenerator = d3.axisLeft(yScale)
     .tickValues(yTickValues)
     .tickFormat((d) => {
-      // d should be one of the values from yTickValues: 0, 2, 4, 6, etc.
-      const hour = Math.round(Number(d));
+      const hour = Math.floor(Number(d));
       return String(hour).padStart(2, '0') + ':00';
     });
+  
+  const yAxis = svg
+    .append('g')
+    .attr('transform', `translate(${usableArea.left}, 0)`)
+    .call(yAxisGenerator);
 
   // Add X axis
   svg
     .append('g')
     .attr('transform', `translate(0, ${usableArea.bottom})`)
     .call(xAxis);
-
-  // Add Y axis
-  svg
-    .append('g')
-    .attr('transform', `translate(${usableArea.left}, 0)`)
-    .call(yAxis);
 
   // Create radius scale
   const [minLines, maxLines] = d3.extent(commits, (d) => d.totalLines);
