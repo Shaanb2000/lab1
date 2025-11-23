@@ -1,73 +1,73 @@
 [
   {
     "title": "Loan Data Analysis",
-    "year": "2013",
+    "year": "2021",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Analyzed loan and income data using Python and visualization tools to identify patterns and trends in financial datasets."
   },
   {
     "title": "Frontend Quiz Gate",
-    "year": "2014",
+    "year": "2021",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Interactive React component with validation and scoring system for educational assessments."
   },
   {
     "title": "Data Visualization Dashboard",
-    "year": "2015",
+    "year": "2022",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Built a comprehensive dashboard using D3.js and React to visualize complex datasets with interactive charts and filters."
   },
   {
     "title": "Machine Learning Model Deployment",
-    "year": "2016",
+    "year": "2022",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Developed and deployed a predictive model using scikit-learn with a Flask API backend for real-time predictions."
   },
   {
     "title": "E-commerce Analytics Platform",
-    "year": "2017",
+    "year": "2023",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Created an analytics platform to track sales, user behavior, and inventory management using Python and SQL."
   },
   {
     "title": "Portfolio Website",
-    "year": "2018",
+    "year": "2023",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Designed and developed a responsive portfolio website with dark mode support and dynamic content loading."
   },
   {
     "title": "Social Media Sentiment Analysis",
-    "year": "2019",
+    "year": "2023",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Built a sentiment analysis tool using NLP techniques to analyze social media posts and generate insights."
   },
   {
     "title": "Real-time Chat Application",
-    "year": "2020",
+    "year": "2024",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Developed a real-time chat application using Node.js, Socket.io, and React with user authentication."
   },
   {
     "title": "Stock Market Predictor",
-    "year": "2021",
+    "year": "2025",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Implemented time series forecasting models using LSTM neural networks to predict stock prices."
   },
   {
     "title": "Climate Data Visualization",
-    "year": "2022",
+    "year": "2025",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Created interactive visualizations of climate data trends using Python's matplotlib and seaborn libraries."
   },
   {
     "title": "Task Management API",
-    "year": "2023",
+    "year": "2025",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Built a RESTful API for task management using Express.js and MongoDB with CRUD operations and authentication."
   },
   {
     "title": "Image Classification System",
-    "year": "2024",
+    "year": "2025",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Developed an image classification system using convolutional neural networks (CNN) with TensorFlow."
   }
