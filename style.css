@@ -116,13 +116,20 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
   opacity: 0.5;
 }
 
-#projects-pie-plot path.selected {
-  opacity: 0.8;
-  stroke: oklch(60% 45% 0);
-  stroke-width: 2;
+/* Remove any stroke on paths */
+#projects-pie-plot path {
+  stroke: none;
 }
 
-/* When showing only one year (filtered), don't show selection styling */
+/* Removed selected styling - no pink border wanted */
+
+/* When filtered to single year, ensure no strokes */
+#projects-pie-plot[data-filtered="true"] path {
+  stroke: none !important;
+  opacity: 1 !important;
+}
+
+/* Also handle the :has selector as fallback */
 #projects-pie-plot:has(path:only-child) path {
   stroke: none !important;
   opacity: 1 !important;

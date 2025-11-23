@@ -83,6 +83,14 @@ function renderPieChart(projectsGiven) {
   // Only show selected class if we're showing all years (not filtered to one year)
   let currentSelectedIdx = -1;
   let isFiltered = selectedYear && data.length === 1;
+  
+  // Add data attribute to SVG to indicate if filtered (for CSS targeting)
+  if (isFiltered) {
+    newSVG.attr('data-filtered', 'true');
+  } else {
+    newSVG.attr('data-filtered', 'false');
+  }
+  
   if (selectedYear && !isFiltered) {
     currentSelectedIdx = data.findIndex(d => d.label === selectedYear);
   }
@@ -98,7 +106,10 @@ function renderPieChart(projectsGiven) {
       .attr('data-original-color', originalColor)
       .attr('class', (!isFiltered && idx === currentSelectedIdx) ? 'selected' : '')
       .on('click', function(event) {
+        event.stopPropagation(); // Prevent event bubbling
         const clickedYear = year; // Use the year from the loop closure
+        
+        console.log('Pie slice clicked:', clickedYear); // Debug log
         
         // Toggle selection
         if (selectedYear === clickedYear) {
