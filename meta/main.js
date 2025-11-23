@@ -175,9 +175,17 @@ function renderScatterPlot(data, commits) {
 
   // Create axes
   const xAxis = d3.axisBottom(xScale);
+  
+  // Generate tick values for every 2 hours (0, 2, 4, 6, ..., 22)
+  const yTickValues = d3.range(0, 25, 2); // [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+  
   const yAxis = d3
     .axisLeft(yScale)
-    .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
+    .tickValues(yTickValues)
+    .tickFormat((d) => {
+      const hour = Math.floor(Number(d)) % 24;
+      return String(hour).padStart(2, '0') + ':00';
+    });
 
   // Add X axis
   svg
