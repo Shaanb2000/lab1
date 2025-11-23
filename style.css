@@ -272,6 +272,11 @@ dl.info dd {
   pointer-events: none;
   transition-duration: 500ms;
   transition-property: opacity, visibility;
+  color: black; /* Ensure text is visible on white background */
+}
+
+.tooltip a {
+  color: #0066cc; /* Blue color for links in tooltip */
 }
 
 .tooltip[hidden]:not(:hover, :focus-within) {
