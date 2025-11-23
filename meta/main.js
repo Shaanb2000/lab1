@@ -241,7 +241,15 @@ function renderScatterPlot(data, commits) {
     const [[x0, y0], [x1, y1]] = selection;
     const commitX = xScale(commit.datetime);
     const commitY = yScale(commit.hourFrac);
-    return commitX >= x0 && commitX <= x1 && commitY >= y1 && commitY <= y0;
+    
+    // Ensure x0 < x1 and y0 < y1 (brush can be drawn in any direction)
+    const minX = Math.min(x0, x1);
+    const maxX = Math.max(x0, x1);
+    const minY = Math.min(y0, y1);
+    const maxY = Math.max(y0, y1);
+    
+    // Check if commit is within the selection bounds
+    return commitX >= minX && commitX <= maxX && commitY >= minY && commitY <= maxY;
   }
 
   function renderSelectionCount(selection) {
@@ -289,15 +297,30 @@ function renderScatterPlot(data, commits) {
 
   function brushed(event) {
     const selection = event.selection;
-    d3.selectAll('circle').classed('selected', (d) =>
-      isCommitSelected(selection, d),
-    );
-    renderSelectionCount(selection);
-    renderLanguageBreakdown(selection);
+    if (selection) {
+      d3.selectAll('circle').classed('selected', (d) =>
+        isCommitSelected(selection, d),
+      );
+      renderSelectionCount(selection);
+      renderLanguageBreakdown(selection);
+    } else {
+      // Clear selection when brush is cleared
+      d3.selectAll('circle').classed('selected', false);
+      renderSelectionCount(null);
+      renderLanguageBreakdown(null);
+    }
   }
 
-  // Create brush
-  svg.call(d3.brush().on('start brush end', brushed));
+  // Create brush with extent
+  const brush = d3
+    .brush()
+    .extent([
+      [usableArea.left, usableArea.top],
+      [usableArea.right, usableArea.bottom],
+    ])
+    .on('start brush end', brushed);
+
+  svg.call(brush);
 
   // Raise dots and everything after overlay
   svg.selectAll('.dots, .overlay ~ *').raise();
