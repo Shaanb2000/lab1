@@ -165,25 +165,31 @@ function renderScatterPlot(data, commits) {
 
   yScale = d3.scaleLinear().domain([0, 24]).range([usableArea.bottom, usableArea.top]);
 
+  // Generate tick values for every 2 hours (0, 2, 4, 6, ..., 22)
+  const yTickValues = d3.range(0, 25, 2); // [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+  
   // Add gridlines
   const gridlines = svg
     .append('g')
     .attr('class', 'gridlines')
     .attr('transform', `translate(${usableArea.left}, 0)`);
 
-  gridlines.call(d3.axisLeft(yScale).tickFormat('').tickSize(-usableArea.width));
+  gridlines.call(
+    d3.axisLeft(yScale)
+      .tickValues(yTickValues)
+      .tickFormat('')
+      .tickSize(-usableArea.width)
+  );
 
   // Create axes
   const xAxis = d3.axisBottom(xScale);
-  
-  // Generate tick values for every 2 hours (0, 2, 4, 6, ..., 22)
-  const yTickValues = d3.range(0, 25, 2); // [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
   
   const yAxis = d3
     .axisLeft(yScale)
     .tickValues(yTickValues)
     .tickFormat((d) => {
-      const hour = Math.floor(Number(d)) % 24;
+      // d should be one of the values from yTickValues: 0, 2, 4, 6, etc.
+      const hour = Math.round(Number(d));
       return String(hour).padStart(2, '0') + ':00';
     });
 
