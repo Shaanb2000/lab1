@@ -58,8 +58,16 @@ function renderPieChart(projectsGiven) {
     label: year
   }));
 
-  // Set up D3 generators
-  let colors = d3.scaleOrdinal(d3.schemeTableau10);
+  // Get all years from full dataset to maintain consistent color mapping
+  let allRolledData = d3.rollups(
+    projects,
+    (v) => v.length,
+    (d) => d.year,
+  );
+  let allYears = allRolledData.map(([year]) => year);
+  
+  // Set up D3 generators with consistent color mapping based on year order
+  let colors = d3.scaleOrdinal(d3.schemeTableau10).domain(allYears);
   let arcGenerator = d3.arc().innerRadius(0).outerRadius(50);
   let sliceGenerator = d3.pie().value((d) => d.value);
   let arcData = sliceGenerator(data);
@@ -79,7 +87,8 @@ function renderPieChart(projectsGiven) {
 
   // Add paths for pie slices
   arcs.forEach((arc, idx) => {
-    const originalColor = colors(idx);
+    const year = data[idx].label;
+    const originalColor = colors(year); // Use year to get consistent color
     newSVG
       .append('path')
       .attr('d', arc)
@@ -111,15 +120,16 @@ function renderPieChart(projectsGiven) {
         // Filter and render projects
         let filteredProjects = filterProjects();
         renderProjects(filteredProjects, projectsContainer, 'h2');
-        // Always render pie chart based on ALL projects, not filtered
-        renderPieChart(projects);
+        // Render pie chart with filtered projects (will show only selected year if one is selected)
+        renderPieChart(filteredProjects);
       });
   });
 
   // Add legend items
   arcData.forEach((d, idx) => {
     const isSelected = idx === currentSelectedIdx;
-    const originalColor = colors(idx);
+    const year = data[idx].label;
+    const originalColor = colors(year); // Use year to get consistent color
     legend
       .append('li')
       .attr('class', isSelected ? 'legend-item selected' : 'legend-item')
@@ -151,8 +161,8 @@ function renderPieChart(projectsGiven) {
         // Filter and render projects
         let filteredProjects = filterProjects();
         renderProjects(filteredProjects, projectsContainer, 'h2');
-        // Always render pie chart based on ALL projects, not filtered
-        renderPieChart(projects);
+        // Render pie chart with filtered projects (will show only selected year if one is selected)
+        renderPieChart(filteredProjects);
       });
   });
 }
@@ -169,6 +179,6 @@ searchInput.addEventListener('input', (event) => {
   let filteredProjects = filterProjects();
 
   renderProjects(filteredProjects, projectsContainer, 'h2');
-  // Always render pie chart based on ALL projects, not filtered
-  renderPieChart(projects);
+  // Render pie chart with filtered projects (will show only selected year if one is selected)
+  renderPieChart(filteredProjects);
 });
