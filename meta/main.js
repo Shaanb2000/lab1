@@ -188,16 +188,19 @@ function renderScatterPlot(data, commits) {
   // Create Y axis with explicit formatting
   // Format 24 as 00:00 (midnight at top)
   const yAxisGenerator = d3.axisLeft(yScale)
-    .tickValues(yTickValues)
-    .tickFormat((d) => {
-      const hour = Math.floor(Number(d)) % 24;
-      return String(hour).padStart(2, '0') + ':00';
-    });
+    .tickValues(yTickValues);
   
   const yAxis = svg
     .append('g')
     .attr('transform', `translate(${usableArea.left}, 0)`)
     .call(yAxisGenerator);
+  
+  // Manually update all text labels to show time format
+  yAxis.selectAll('text')
+    .each(function(d, i) {
+      const hour = yTickValues[i] % 24;
+      d3.select(this).text(String(hour).padStart(2, '0') + ':00');
+    });
 
   // Add X axis
   svg
