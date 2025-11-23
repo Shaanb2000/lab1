@@ -70,17 +70,5 @@
     "year": "2024",
     "image": "https://dsc106.com/labs/lab02/images/empty.svg",
     "description": "Developed an image classification system using convolutional neural networks (CNN) with TensorFlow."
-  },
-  {
-    "title": "Customer Churn Prediction",
-    "year": "2025",
-    "image": "https://dsc106.com/labs/lab02/images/empty.svg",
-    "description": "Analyzed customer data to predict churn probability using machine learning algorithms and feature engineering."
-  },
-  {
-    "title": "Web Scraping Tool",
-    "year": "2012",
-    "image": "https://dsc106.com/labs/lab02/images/empty.svg",
-    "description": "Created a web scraping tool using Python's BeautifulSoup and Selenium to extract and process data from websites."
   }
 ]
