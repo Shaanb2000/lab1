@@ -100,6 +100,79 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
 }
 .projects img { width: 100%; height: auto; display: block; }
 
+/* Pie chart styles */
+#projects-pie-plot {
+  max-width: 20em;
+  margin-block: 2em;
+  overflow: visible;
+}
+
+#projects-pie-plot path {
+  cursor: pointer;
+  transition: opacity 300ms;
+}
+
+#projects-pie-plot:has(path:hover) path:not(:hover) {
+  opacity: 0.5;
+}
+
+#projects-pie-plot path.selected {
+  --color: oklch(60% 45% 0) !important;
+  fill: var(--color);
+}
+
+/* Container for pie chart and legend */
+.container {
+  display: flex;
+  gap: 2em;
+  align-items: center;
+  margin-block: 2em;
+}
+
+/* Legend styles */
+.legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9em, 1fr));
+  gap: 0.5em;
+  list-style: none;
+  padding: 1em;
+  border: 1px solid color-mix(in oklch, canvastext 20%, canvas 80%);
+  border-radius: 0.5em;
+  flex: 1;
+  margin: 0;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+}
+
+.legend-item.selected {
+  --color: oklch(60% 45% 0) !important;
+}
+
+.swatch {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background-color: var(--color);
+  border-radius: 0.2em;
+  flex-shrink: 0;
+}
+
+/* Search bar styles */
+.searchBar {
+  width: 100%;
+  max-width: 30em;
+  padding: 0.5em;
+  margin-block: 1em;
+  font: inherit;
+  border: 1px solid color-mix(in oklch, canvastext 20%, canvas 80%);
+  border-radius: 0.25em;
+}
+
 /* Theme selector styles */
 .color-scheme {
   position: absolute;

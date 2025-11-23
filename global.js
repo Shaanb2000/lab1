@@ -185,11 +185,16 @@ export function renderProjects(projectArray, containerElement, headingLevel = 'h
 
     projectArray.forEach(project => {
         const article = document.createElement('article');
+        const contentDiv = document.createElement('div');
+        contentDiv.innerHTML = `
+            <p>${project.description}</p>
+            ${project.year ? `<p style="font-family: Baskerville, serif; font-variant-numeric: oldstyle-nums; color: gray; margin-top: 0.5em;">${project.year}</p>` : ''}
+        `;
         article.innerHTML = `
             <${headingLevel}>${project.title}</${headingLevel}>
             <img src="${project.image}" alt="${project.title}">
-            <p>${project.description}</p>
         `;
+        article.appendChild(contentDiv);
         containerElement.appendChild(article);
     });
 }
