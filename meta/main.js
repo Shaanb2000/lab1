@@ -165,8 +165,9 @@ function renderScatterPlot(data, commits) {
 
   yScale = d3.scaleLinear().domain([0, 24]).range([usableArea.bottom, usableArea.top]);
 
-  // Generate tick values for every 2 hours (0, 2, 4, 6, ..., 22)
-  const yTickValues = d3.range(0, 25, 2); // [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22]
+  // Generate tick values for every 2 hours (0, 2, 4, 6, ..., 22, 24)
+  // Include 24 so we get 00:00 at the top
+  const yTickValues = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
   
   // Add gridlines
   const gridlines = svg
@@ -185,10 +186,11 @@ function renderScatterPlot(data, commits) {
   const xAxis = d3.axisBottom(xScale);
   
   // Create Y axis with explicit formatting
+  // Format 24 as 00:00 (midnight at top)
   const yAxisGenerator = d3.axisLeft(yScale)
     .tickValues(yTickValues)
     .tickFormat((d) => {
-      const hour = Math.floor(Number(d));
+      const hour = Math.floor(Number(d)) % 24;
       return String(hour).padStart(2, '0') + ':00';
     });
   
