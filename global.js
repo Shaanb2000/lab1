@@ -17,7 +17,7 @@ console.log("IT'S ALIVE!");
 // Determine base path based on current location
 function getBasePath() {
   const path = window.location.pathname;
-  if (path.includes('/contact/') || path.includes('/cv/') || path.includes('/projects/') || path.includes('/resume/')) {
+  if (path.includes('/contact/') || path.includes('/cv/') || path.includes('/projects/') || path.includes('/resume/') || path.includes('/meta/')) {
     return '../';
   }
   return '';
@@ -27,6 +27,7 @@ function getBasePath() {
 let pages = [
   { url: 'index.html', title: 'Home' },
   { url: 'projects/index.html', title: 'Projects' },
+  { url: 'meta/index.html', title: 'Meta' },
   { url: 'contact/index.html', title: 'Contact' },
   { url: 'resume/index.html', title: 'Resume' },
   { url: 'https://github.com/shaanb2000', title: 'GitHub' }
