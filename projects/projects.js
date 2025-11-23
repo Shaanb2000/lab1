@@ -79,10 +79,12 @@ function renderPieChart(projectsGiven) {
 
   // Add paths for pie slices
   arcs.forEach((arc, idx) => {
+    const originalColor = colors(idx);
     newSVG
       .append('path')
       .attr('d', arc)
-      .attr('fill', colors(idx))
+      .attr('fill', originalColor)
+      .attr('data-original-color', originalColor)
       .attr('class', idx === currentSelectedIdx ? 'selected' : '')
       .on('click', function(event, d) {
         const clickedYear = data[arcData.indexOf(d)].label;
@@ -109,17 +111,20 @@ function renderPieChart(projectsGiven) {
         // Filter and render projects
         let filteredProjects = filterProjects();
         renderProjects(filteredProjects, projectsContainer, 'h2');
-        renderPieChart(filteredProjects);
+        // Always render pie chart based on ALL projects, not filtered
+        renderPieChart(projects);
       });
   });
 
   // Add legend items
   arcData.forEach((d, idx) => {
     const isSelected = idx === currentSelectedIdx;
+    const originalColor = colors(idx);
     legend
       .append('li')
       .attr('class', isSelected ? 'legend-item selected' : 'legend-item')
-      .attr('style', `--color:${colors(idx)}`)
+      .attr('style', `--color:${originalColor}`)
+      .attr('data-original-color', originalColor)
       .html(`<span class="swatch"></span> ${data[idx].label} <em>(${data[idx].value})</em>`)
       .on('click', function() {
         const clickedYear = data[idx].label;
@@ -146,7 +151,8 @@ function renderPieChart(projectsGiven) {
         // Filter and render projects
         let filteredProjects = filterProjects();
         renderProjects(filteredProjects, projectsContainer, 'h2');
-        renderPieChart(filteredProjects);
+        // Always render pie chart based on ALL projects, not filtered
+        renderPieChart(projects);
       });
   });
 }
@@ -163,5 +169,6 @@ searchInput.addEventListener('input', (event) => {
   let filteredProjects = filterProjects();
 
   renderProjects(filteredProjects, projectsContainer, 'h2');
-  renderPieChart(filteredProjects);
+  // Always render pie chart based on ALL projects, not filtered
+  renderPieChart(projects);
 });
