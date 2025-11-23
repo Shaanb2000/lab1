@@ -185,36 +185,38 @@ function renderScatterPlot(data, commits) {
   // Create axes
   const xAxis = d3.axisBottom(xScale);
   
-  // Create Y axis - simpler approach: create axis without labels first
+  // Create Y axis - simpler approach: manually create ticks and labels
   const yAxisGroup = svg
     .append('g')
     .attr('class', 'y-axis')
     .attr('transform', `translate(${usableArea.left}, 0)`);
   
-  // Add tick lines
-  yAxisGroup.selectAll('line')
+  // Add tick lines and labels
+  yAxisGroup.selectAll('.y-tick')
     .data(yTickValues)
-    .enter()
-    .append('line')
-    .attr('x1', 0)
-    .attr('x2', -6)
-    .attr('y1', (d) => yScale(d))
-    .attr('y2', (d) => yScale(d))
-    .attr('stroke', 'currentColor');
-  
-  // Add text labels manually
-  yAxisGroup.selectAll('text')
-    .data(yTickValues)
-    .enter()
-    .append('text')
-    .attr('x', -9)
-    .attr('y', (d) => yScale(d))
-    .attr('dy', '0.35em')
-    .attr('text-anchor', 'end')
-    .style('font-size', '12px')
-    .text((d) => {
+    .join('g')
+    .attr('class', 'y-tick')
+    .attr('transform', (d) => `translate(0, ${yScale(d)})`)
+    .each(function(d) {
+      const tickGroup = d3.select(this);
+      
+      // Add tick line
+      tickGroup.append('line')
+        .attr('x1', 0)
+        .attr('x2', -6)
+        .attr('y1', 0)
+        .attr('y2', 0)
+        .attr('stroke', 'currentColor');
+      
+      // Add text label
       const hour = d % 24;
-      return String(hour).padStart(2, '0') + ':00';
+      tickGroup.append('text')
+        .attr('x', -9)
+        .attr('y', 0)
+        .attr('dy', '0.35em')
+        .attr('text-anchor', 'end')
+        .style('font-size', '12px')
+        .text(String(hour).padStart(2, '0') + ':00');
     });
 
   // Add X axis
