@@ -80,8 +80,10 @@ function renderPieChart(projectsGiven) {
   legend.selectAll('li').remove();
 
   // Determine which slice should be highlighted based on selectedYear
+  // Only show selected class if we're showing all years (not filtered to one year)
   let currentSelectedIdx = -1;
-  if (selectedYear) {
+  let isFiltered = selectedYear && data.length === 1;
+  if (selectedYear && !isFiltered) {
     currentSelectedIdx = data.findIndex(d => d.label === selectedYear);
   }
 
@@ -89,14 +91,14 @@ function renderPieChart(projectsGiven) {
   arcs.forEach((arc, idx) => {
     const year = data[idx].label;
     const originalColor = colors(year); // Use year to get consistent color
-    newSVG
+    const pathElement = newSVG
       .append('path')
       .attr('d', arc)
       .attr('fill', originalColor)
       .attr('data-original-color', originalColor)
-      .attr('class', idx === currentSelectedIdx ? 'selected' : '')
-      .on('click', function(event, d) {
-        const clickedYear = data[arcData.indexOf(d)].label;
+      .attr('class', (!isFiltered && idx === currentSelectedIdx) ? 'selected' : '')
+      .on('click', function(event) {
+        const clickedYear = year; // Use the year from the loop closure
         
         // Toggle selection
         if (selectedYear === clickedYear) {
@@ -127,7 +129,8 @@ function renderPieChart(projectsGiven) {
 
   // Add legend items
   arcData.forEach((d, idx) => {
-    const isSelected = idx === currentSelectedIdx;
+    // Only show selected class if we're showing all years (not filtered to one year)
+    const isSelected = !isFiltered && idx === currentSelectedIdx;
     const year = data[idx].label;
     const originalColor = colors(year); // Use year to get consistent color
     legend

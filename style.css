@@ -117,9 +117,15 @@ button { grid-column: 1 / -1; justify-self: center; padding: 0.6em 1.2em; }
 }
 
 #projects-pie-plot path.selected {
-  opacity: 0.7;
+  opacity: 0.8;
   stroke: oklch(60% 45% 0);
-  stroke-width: 3;
+  stroke-width: 2;
+}
+
+/* When showing only one year (filtered), don't show selection styling */
+#projects-pie-plot:has(path:only-child) path {
+  stroke: none !important;
+  opacity: 1 !important;
 }
 
 /* Container for pie chart and legend */
