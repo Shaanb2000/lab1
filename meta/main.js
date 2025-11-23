@@ -185,21 +185,36 @@ function renderScatterPlot(data, commits) {
   // Create axes
   const xAxis = d3.axisBottom(xScale);
   
-  // Create Y axis with explicit formatting
-  // Format 24 as 00:00 (midnight at top)
-  const yAxisGenerator = d3.axisLeft(yScale)
-    .tickValues(yTickValues);
-  
-  const yAxis = svg
+  // Create Y axis - simpler approach: create axis without labels first
+  const yAxisGroup = svg
     .append('g')
-    .attr('transform', `translate(${usableArea.left}, 0)`)
-    .call(yAxisGenerator);
+    .attr('class', 'y-axis')
+    .attr('transform', `translate(${usableArea.left}, 0)`);
   
-  // Manually update all text labels to show time format
-  yAxis.selectAll('text')
-    .each(function(d, i) {
-      const hour = yTickValues[i] % 24;
-      d3.select(this).text(String(hour).padStart(2, '0') + ':00');
+  // Add tick lines
+  yAxisGroup.selectAll('line')
+    .data(yTickValues)
+    .enter()
+    .append('line')
+    .attr('x1', 0)
+    .attr('x2', -6)
+    .attr('y1', (d) => yScale(d))
+    .attr('y2', (d) => yScale(d))
+    .attr('stroke', 'currentColor');
+  
+  // Add text labels manually
+  yAxisGroup.selectAll('text')
+    .data(yTickValues)
+    .enter()
+    .append('text')
+    .attr('x', -9)
+    .attr('y', (d) => yScale(d))
+    .attr('dy', '0.35em')
+    .attr('text-anchor', 'end')
+    .style('font-size', '12px')
+    .text((d) => {
+      const hour = d % 24;
+      return String(hour).padStart(2, '0') + ':00';
     });
 
   // Add X axis
