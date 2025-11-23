@@ -185,39 +185,17 @@ function renderScatterPlot(data, commits) {
   // Create axes
   const xAxis = d3.axisBottom(xScale);
   
-  // Create Y axis - simpler approach: manually create ticks and labels
-  const yAxisGroup = svg
-    .append('g')
-    .attr('class', 'y-axis')
-    .attr('transform', `translate(${usableArea.left}, 0)`);
+  // Create Y axis with time formatting (as per lab instructions)
+  const yAxis = d3
+    .axisLeft(yScale)
+    .tickValues(yTickValues)
+    .tickFormat((d) => String(d % 24).padStart(2, '0') + ':00');
   
-  // Add tick lines and labels
-  yAxisGroup.selectAll('.y-tick')
-    .data(yTickValues)
-    .join('g')
-    .attr('class', 'y-tick')
-    .attr('transform', (d) => `translate(0, ${yScale(d)})`)
-    .each(function(d) {
-      const tickGroup = d3.select(this);
-      
-      // Add tick line
-      tickGroup.append('line')
-        .attr('x1', 0)
-        .attr('x2', -6)
-        .attr('y1', 0)
-        .attr('y2', 0)
-        .attr('stroke', 'currentColor');
-      
-      // Add text label
-      const hour = d % 24;
-      tickGroup.append('text')
-        .attr('x', -9)
-        .attr('y', 0)
-        .attr('dy', '0.35em')
-        .attr('text-anchor', 'end')
-        .style('font-size', '12px')
-        .text(String(hour).padStart(2, '0') + ':00');
-    });
+  // Add Y axis to SVG
+  svg
+    .append('g')
+    .attr('transform', `translate(${usableArea.left}, 0)`)
+    .call(yAxis);
 
   // Add X axis
   svg
