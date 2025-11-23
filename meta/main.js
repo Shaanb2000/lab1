@@ -258,7 +258,11 @@ function renderScatterPlot(data, commits) {
       : [];
 
     const countElement = document.querySelector('#selection-count');
-    countElement.textContent = `${selectedCommits.length || 'No'} commits selected`;
+    if (countElement) {
+      countElement.textContent = selectedCommits.length > 0 
+        ? `${selectedCommits.length} commits selected`
+        : 'No commits selected';
+    }
 
     return selectedCommits;
   }
@@ -297,15 +301,17 @@ function renderScatterPlot(data, commits) {
 
   function brushed(event) {
     const selection = event.selection;
+    
     if (selection) {
-      d3.selectAll('circle').classed('selected', (d) =>
+      // Use the dots selection to update circles in this specific chart
+      dots.selectAll('circle').classed('selected', (d) =>
         isCommitSelected(selection, d),
       );
       renderSelectionCount(selection);
       renderLanguageBreakdown(selection);
     } else {
       // Clear selection when brush is cleared
-      d3.selectAll('circle').classed('selected', false);
+      dots.selectAll('circle').classed('selected', false);
       renderSelectionCount(null);
       renderLanguageBreakdown(null);
     }
@@ -322,8 +328,9 @@ function renderScatterPlot(data, commits) {
 
   svg.call(brush);
 
-  // Raise dots and everything after overlay
-  svg.selectAll('.dots, .overlay ~ *').raise();
+  // Raise dots above the brush overlay so tooltips work, but brush still functions
+  // The brush overlay will still capture brush events even if dots are above
+  dots.raise();
 }
 
 // Main execution
